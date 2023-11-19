@@ -5,4 +5,5 @@ Allows to gather the wanted OSM data within the bouding box of the uploaded data
 
 ### <p align="center"> Current app look</p>
 
-![Alt text](image\app_design.png)
+![app_design](https://github.com/ArmelVidali/geodata-sanitizer/assets/84096571/5493377f-72f8-4109-b792-4688c10ca164)
+
