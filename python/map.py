@@ -2,6 +2,8 @@ import customtkinter
 from tkintermapview import TkinterMapView
 from tkinter import filedialog
 import os.path
+from convert import import_data
+
 
 customtkinter.set_default_color_theme("blue")
 
@@ -46,7 +48,7 @@ class App(customtkinter.CTk):
         self.button_1 = customtkinter.CTkButton(master=self.frame_left,
                                                 text="Upload vector folder",
                                                 width=250,
-                                                command=lambda: self.browse_file("folder"))
+                                                command=self.add)
         self.button_1.grid(pady=(10, 15), padx=(0, 0), row=0, column=0)
 
         self.button_2 = customtkinter.CTkButton(master=self.frame_left,
@@ -104,17 +106,37 @@ class App(customtkinter.CTk):
                 title="Select File(s)", filetypes=(("All Files", ".*"),))
 
         i = 1
+        self.loaded_layers = []
         for filename in selected_path:
+            self.loaded_layers.append(import_data(filename))
+            # Get file name and extension
             extracted_filename, file_extension = os.path.splitext(
                 os.path.basename(filename))
+
+            # set label
             new_label = customtkinter.CTkLabel(
                 self.frame_left, text=extracted_filename + file_extension, font=('arial', 18))
             new_label.grid(row=i, column=0, columnspan=3, sticky="w")
+            # Set checkbox to display layer on the map
             check_var = customtkinter.StringVar(value="on")
             checkbox = customtkinter.CTkCheckBox(self.frame_left, checkbox_height=18, text="Map display",
                                                  variable=check_var, onvalue="on", offvalue="off")
             checkbox.grid(row=i, column=1)
             i += 1
+
+        exterior_coords = self.loaded_layers[0].iloc[0]["geometry"].exterior.coords
+        corrected_coords = [(lon, lat) for lat, lon in exterior_coords]
+
+        # Assign the corrected coordinates back to self.test as a list
+        self.test = list(corrected_coords)
+
+    def add(self):
+        poly = self.map_widget.set_polygon(self.test,
+
+                                           outline_color="red",
+                                           border_width=2,
+
+                                           name="switzerland_polygon")
 
     def on_closing(self, event=0):
         self.destroy()

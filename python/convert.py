@@ -18,9 +18,10 @@ def convert(geo_dataframe, file_name, output_path, output_format, target_crs=Fal
 def import_data(path):
 
     try:
+
         gdf = gpd.read_file(path)
-        file_name = path[path.rfind("\\")+1:path.rfind(".")]
-        return gdf, file_name
+
+        return gdf
 
     except Exception as err:
         return None, f"Error importing data: {err}"
