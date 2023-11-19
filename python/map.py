@@ -10,7 +10,7 @@ customtkinter.set_default_color_theme("blue")
 
 class App(customtkinter.CTk):
 
-    APP_NAME = "TkinterMapView with CustomTkinter"
+    APP_NAME = "Geodata sanitizer"
     WIDTH = 2000
     HEIGHT = 900
 
