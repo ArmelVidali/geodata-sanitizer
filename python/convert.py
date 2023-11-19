@@ -20,6 +20,8 @@ def import_data(path):
     try:
 
         gdf = gpd.read_file(path)
+        print(gdf.crs)
+        gdf = gdf.to_crs("epsg:4326")
 
         return gdf
 
